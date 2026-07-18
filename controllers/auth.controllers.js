@@ -24,7 +24,11 @@ router.post("/sign-up", async (req, res) => {
 
   // validation logic
 
-  const user = await User.create(req.body);
+  const user = await User.create({
+  username: req.body.username,
+  password: hashedPassword,
+  role: "parent"
+});
   res.redirect("/auth/sign-in");
 });
 
@@ -58,7 +62,8 @@ router.post("/sign-in", async (req, res) => {
   // If there is other data you want to save to `req.session.user`, do so here!
   req.session.user = {
     username: userInDatabase.username,
-    _id: userInDatabase._id
+    _id: userInDatabase._id,
+    role: userInDatabase.role
   };
 
   res.redirect("/");
