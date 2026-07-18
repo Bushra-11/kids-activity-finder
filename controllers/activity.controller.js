@@ -31,4 +31,10 @@ router.post('/',isSignedIn,isProvider,async (req,res)=>{
     res.redirect('/activities')
 })
 
+//Show Activity Details
+router.get('/:id', async (req,res)=>{
+    const activity = await Activity.findById(req.params.id)
+    res.render('activity/activity-details.ejs', {activity})
+})
+
 module.exports = router;

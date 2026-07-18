@@ -6,9 +6,12 @@
     <title>all-activities</title>
 </head>
 <body>
+    <%- include('../partials/navbar') %>
     <h1>All Activities</h1>
     <% for(let oneActivity of allActivities ){ %>
         <a href="/activities/<%= oneActivity._id %>"><%= oneActivity.title %></a>
+        <br>
+        <br>
         <% } %>
 
 </body>
