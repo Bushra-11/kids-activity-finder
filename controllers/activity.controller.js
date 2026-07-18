@@ -57,4 +57,11 @@ router.put('/:id',isSignedIn, isProvider,async (req,res)=>{
     res.redirect(`/activities/${req.params.id}`);
 })
 
+//delete Activity
+router.delete('/:id', isSignedIn, isProvider,async (req,res)=>{
+    await Activity.findByIdAndDelete(req.params.id)
+    res.redirect(`/activities`);
+
+})
+
 module.exports = router;
