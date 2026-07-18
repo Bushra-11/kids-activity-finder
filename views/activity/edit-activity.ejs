@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>create-activity</title>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+    <h1>Edit Activity</h1>
+    <form action="/activities/<%= activity._id %>?_method=PUT" method="post">
+
+        <label for="title" >Title: </label>
+        <input value="<%= activity.title %>" name="title" id="title" type="text">
+
+        <label for="category" >Category: </label>
+        <input value="<%= activity.category %>" name="category" id="category" type="text">
+
+        <label for="description" >Description: </label>
+        <input value="<%= activity.description %>" name="description" id="description" type="text">
+
+        <label for="ageRange" >Age Range: </label>
+        <input value="<%= activity.ageRange %>" name="ageRange" id="ageRange" type="text">
+
+        <label for="tags" >Tags: </label>
+        <input value="<%= activity.tags %>" name="tags" id="tags" type="text">
+
+        <label for="price" >Price: </label>
+        <input value="<%= activity.price %>" name="price" id="price" type="number">
+
+        <label for="capacity" >Capacity : </label>
+        <input value="<%= activity.capacity %>" name="capacity" id="capacity" type="number">
+
+        <label for="imageUrl" >image Url : </label>
+        <input value="<%= activity.imageUrl %>" name="imageUrl" id="imageUrl" type="text">
+
+        <button type="submit">Edit Activity</button>
+    </form>
+</body>
+</html>

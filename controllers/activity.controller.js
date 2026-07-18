@@ -37,4 +37,24 @@ router.get('/:id', async (req,res)=>{
     res.render('activity/activity-details.ejs', {activity})
 })
 
+//edit Activity
+router.get('/:id/edit', isSignedIn, isProvider,async (req,res)=>{
+    const activity = await Activity.findById(req.params.id)
+    res.render('activity/edit-activity.ejs',{activity})
+})
+
+router.put('/:id',isSignedIn, isProvider,async (req,res)=>{
+    await Activity.findByIdAndUpdate(req.params.id,{
+        title: req.body.title,
+        category: req.body.category,
+        description: req.body.description,
+        ageRange: req.body.ageRange,
+        tags: req.body.tags.split(',').map(tag => tag.trim()),
+        price: req.body.price,
+        capacity: req.body.capacity,
+        imageUrl: req.body.imageUrl,
+    })
+    res.redirect(`/activities/${req.params.id}`);
+})
+
 module.exports = router;
