@@ -11,6 +11,22 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  role:{
+    type: String,
+    enum: ["parent","provider"],
+    default: "parent"
+    
+  },
+  interests:{
+    type: [String],
+  },
+  childAge:{
+    type: Number,
+  },
+  favorites:{
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Activity"
+  }
 }, {timestamps: true});
 
 const User = mongoose.model("User", userSchema);
