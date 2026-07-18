@@ -32,11 +32,49 @@ Kids After-School Activity System is a full-stack web app that helps parents dis
 16. As a provider, I can view all enrollments across activities.
 
 ## Database Design
-
+![alt text](image.png)
 
 
 ## Routes
+Activities Routes
 
+| Method | Route                | Description                       |
+|--------|----------------------|-----------------------------------|
+| GET    | /activities          | list all activities               |
+| GET    | /activities/:id      | Show one activity and its reviews |
+| GET    | /activities/new      | shows create acticity form        |
+| POST   | /activities          | Create activity                   |
+| GET    | /activities/:id/edit | Show edit form                    |
+| PUT    | /activities/:id      | Update activity                   |
+| DELETE | /activities/:id      | Delete activity                   |
+
+
+Review Routes
+
+| Method | Route                           | Description                  |
+|--------|---------------------------------|------------------------------|
+| POST   | /activities/:activityId/reviews | Create review on an activity |
+| GET    | /reviews/:id/edit               | Show edit form, pre-filled   |
+| PUT    | /reviews/:id                    | Update review                |
+| DELETE | /reviews/:id                    | Delete review                |
+
+
+Enrollment Routes
+
+| Method | Route                               | Description                 |
+|--------|-------------------------------------|-----------------------------|
+| POST   | /activities/:activityId/enrollments | Enroll child in activity    |
+| GET    | /enrollments                        | View own enrollment history |
+| DELETE | /enrollments/:id                    | Cancel own enrollment       |
+| GET    | /provider/enrollments               | View all enrollments        |
+
+
+Home Routes
+| Method | Route               | Description        |
+|--------|---------------------|--------------------|
+| GET    | /                   | Homepage           |
+| GET    | /dashboard          | Parent dashboard   |
+| GET    | /provider/dashboard | Provider dashboard |
 
 
 ## Features
