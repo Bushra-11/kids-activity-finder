@@ -12,11 +12,13 @@ const connectToDB = require('./db.js')
 const isSignedIn = require("./middleware/is-signed-in.js");
 const passUserToView = require("./middleware/pass-user-to-view.js");
 const isProvider = require('./middleware/is-provider.js')
+const isParent = require('./middleware/is-parent.js')
 
 // controller Imports
 const authController = require("./controllers/auth.controllers.js");
 const indexController = require("./controllers/index.controllers.js");
 const activityController = require("./controllers/activity.controller.js")
+const reviewController = require("./controllers/review.controller.js")
 
 
 // Middleware
@@ -59,6 +61,7 @@ app.use(passUserToView)
 app.use('/auth',authController)
 app.use('/',indexController)
 app.use('/activities', activityController)
+app.use('/reviews', reviewController)
 
 
 

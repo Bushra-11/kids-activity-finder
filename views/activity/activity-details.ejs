@@ -25,6 +25,7 @@
         <p>Capacity: <%= activity.capacity %>
         </p>
 
+
         <% if (user && user._id === activity.createdBy.toString()) { %>
             <a href="/activities/<%= activity._id %>/edit">
                 <button type="button">Edit Activity</button>
@@ -34,6 +35,45 @@
                 <button type="submit">Delete Activity</button>
             </form>
             <% } %>
+
+        <h2>Reviews</h2>
+        <% if (reviews.length === 0) { %>
+            <p>No reviews yet.</p>
+            <% } %>
+                <% reviews.forEach(function(review) { %>
+                    <div>
+                        <p>
+                            <h4><%= review.userId.username %></h4> - Rating: <%= review.rating %>/5
+                        </p>
+                        <p>
+                            <%= review.comment %>
+                        </p>
+                        <% if(user && user._id === review.userId._id.toString()){ %>
+                        <form action="/reviews/<%= review._id %>/edit" method="get">
+                            <button>Edit Review</button>
+                        </form>
+                        <% } %>
+                    </div>
+                    <% }); %>
+
+                        <% if (user && user.role == 'parent' ) { %>
+                            <h3>Leave a Review</h3>
+                            <form action="/reviews/<%= activity._id %>" method="post">
+                                <label for="rating">Rating</label>
+                                <select name="rating" id="rating" >
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+
+                                <label for="comment">Comment</label>
+                                <textarea name="comment" id="comment" ></textarea>
+
+                                <button type="submit">Submit Review</button>
+                            </form>
+                            <% } %>
 
 </body>
 

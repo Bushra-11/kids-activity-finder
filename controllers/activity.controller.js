@@ -1,5 +1,6 @@
 const router = require("express").Router()
 const Activity = require('../models/Activity ')
+const Review = require('../models/Review')
 const isSignedIn = require('../middleware/is-signed-in')
 const isProvider = require("../middleware/is-provider")
 
@@ -34,7 +35,8 @@ router.post('/',isSignedIn,isProvider,async (req,res)=>{
 //Show Activity Details
 router.get('/:id', async (req,res)=>{
     const activity = await Activity.findById(req.params.id)
-    res.render('activity/activity-details.ejs', {activity})
+    const reviews = await Review.find({ activityId: req.params.id }).populate('userId')
+    res.render('activity/activity-details.ejs', {activity, reviews})
 })
 
 //edit Activity
