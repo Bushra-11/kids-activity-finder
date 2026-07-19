@@ -8,5 +8,13 @@
 <body>
     <%- include('../partials/navbar') %>
     <h1>Enrollment History</h1>
+    <% if (enrollments.length === 0) { %>
+            <p>No enrollments yet.</p>
+        <% } else {%>
+            <% enrollments.forEach(function(enrollment) { %>
+                <div>
+                    <a href="/enrollments/<%= enrollment._id %>"><%= enrollment.activityId.title %></a>
+                </div>
+            <% }) }%>
 </body>
 </html>

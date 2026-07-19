@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>enrollment details</title>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+    <h1>Enrollment Details</h1>
+        <div></div>
+        <p> Enrolled In <%= enrollment.activityId.title %></p>
+        <p>Date of Enrollment <%= enrollment.createdAt.getUTCFullYear() %>/<%= enrollment.createdAt.getMonth() + 1 %>/<%= enrollment.createdAt.getDate() %></p>
+        
+
+</body>
+</html>
