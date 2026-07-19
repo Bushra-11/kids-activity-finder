@@ -6,6 +6,13 @@
       <a href="/activities/new">Create Activity</a>
     <% } %>
 
+
+    <% if (user && user.role === 'parent'){ %>
+      <a href="/enrollments">Enrollment History</a>
+
+      <% } %>
+
+
     <% if (user) { %>
       <a href="/auth/sign-out">Logout</a>
     <% } else { %>

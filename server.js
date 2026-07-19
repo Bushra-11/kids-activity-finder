@@ -19,6 +19,7 @@ const authController = require("./controllers/auth.controllers.js");
 const indexController = require("./controllers/index.controllers.js");
 const activityController = require("./controllers/activity.controller.js")
 const reviewController = require("./controllers/review.controller.js")
+const enrollmentController = require("./controllers/enrollments.controller.js")
 
 
 // Middleware
@@ -47,21 +48,12 @@ app.use(passUserToView)
 
 
 
-
-
-
-
-
-
-
-
-
-
 // Routes go here
 app.use('/auth',authController)
 app.use('/',indexController)
 app.use('/activities', activityController)
 app.use('/reviews', reviewController)
+app.use('/enrollments', enrollmentController)
 
 
 
