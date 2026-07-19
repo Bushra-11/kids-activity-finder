@@ -65,6 +65,7 @@ Enrollment Routes
 |--------|-------------------------------------|-----------------------------|
 | POST   | /activities/:activityId/enrollments | Enroll child in activity    |
 | GET    | /enrollments                        | View own enrollment history |
+| GET    | /enrollments/:id                    | View enrollment details     |
 | DELETE | /enrollments/:id                    | Cancel own enrollment       |
 | GET    | /provider/enrollments               | View all enrollments        |
 
