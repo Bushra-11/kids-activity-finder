@@ -30,7 +30,8 @@
             <a href="/activities/<%= activity._id %>/edit">
                 <button type="button">Edit Activity</button>
             </a>
-            
+            <br>
+            <br>
             <form action="/activities/<%= activity._id %>?_method=DELETE" method="post">
                 <button type="submit">Delete Activity</button>
             </form>
@@ -51,6 +52,10 @@
                         <% if(user && user._id === review.userId._id.toString()){ %>
                         <form action="/reviews/<%= review._id %>/edit" method="get">
                             <button>Edit Review</button>
+                        </form>
+                        <form action="/reviews/<%= review._id %>?_method=DELETE" method="post">
+                            <br>
+                            <button>Delete Review</button>
                         </form>
                         <% } %>
                     </div>

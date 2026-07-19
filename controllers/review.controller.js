@@ -14,17 +14,26 @@ router.post('/:activityId', isSignedIn, isParent, async (req, res) => {
     res.redirect(`/activities/${req.params.activityId}`)
 })
 
+
+// show edit form pre-filled
 router.get('/:id/edit',isSignedIn,isParent, async (req,res)=>{
     const review = await Review.findById(req.params.id)
     res.render('review/edit-reviews.ejs',{review})
 })
 
+// update review
 router.put('/:id',isSignedIn,isParent, async (req,res)=>{
     const review = await Review.findByIdAndUpdate(req.params.id,{
         rating: req.body.rating,
         comment: req.body.comment
     })
     res.redirect(`/activities/${review.activityId}`)
+})
+
+// delete review
+router.delete('/:id', isSignedIn,isParent, async (req,res)=>{
+    const deletedReview = await Review.findByIdAndDelete(req.params.id)
+    res.redirect(`/activities/${deletedReview.activityId}`)
 })
 
 module.exports = router;
