@@ -9,8 +9,14 @@
     <%- include('../partials/navbar') %>
     <h1>Enrollment Details</h1>
         <div></div>
-        <p> Enrolled In <%= enrollment.activityId.title %></p>
-        <p>Date of Enrollment <%= enrollment.createdAt.getUTCFullYear() %>/<%= enrollment.createdAt.getMonth() + 1 %>/<%= enrollment.createdAt.getDate() %></p>
+        <p>Child Name: <%= enrollment.childName %></p>
+        <p>Enrolled In: <%= enrollment.activityId.title %></p>
+        <p>Price paid: <%= enrollment.priceAtEnrollment %> BD</p>
+        <p>Date of Enrollment: <%= enrollment.createdAt.getUTCFullYear() %>/<%= enrollment.createdAt.getMonth() + 1 %>/<%= enrollment.createdAt.getDate() %></p>
+        <p>Enrollment Status: <%= enrollment.status %></p>
+        <form action="/enrollments/<%= enrollment._id %>?_method=DELETE" method="post">
+            <button>Cancel Enrollment</button>
+        </form>
         
 
 </body>

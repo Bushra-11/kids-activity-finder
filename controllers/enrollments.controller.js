@@ -28,5 +28,10 @@ router.get('/:id', isSignedIn, isParent, async(req,res)=>{
     res.render('enrollments/enrollment-details.ejs', {enrollment})
 })
 
+//cancel enrollment
+router.delete('/:id', isSignedIn, isParent, async (req,res)=>{
+    const cancelledEnrollment = await Enrollment.findByIdAndDelete(req.params.id)
+    res.redirect('/enrollments')
+})
 
 module.exports = router;

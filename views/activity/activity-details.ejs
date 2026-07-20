@@ -20,7 +20,7 @@
         </p>
         <p>Tags: <%= activity.tags %>
         </p>
-        <p>Price: <%= activity.price %>
+        <p>Price: <%= activity.price %> BD
         </p>
         <p>Capacity: <%= activity.capacity %>
         </p>
@@ -60,17 +60,16 @@
                         <% } %>
                     </div>
                     <% }); %>
-
+                        <br>
                         <% if (user && user.role == 'parent' ) { %>
                             <form action="/enrollments/<%= activity._id %>" method="post">
                                 <label for="childName">Child Name</label>
-                                <input type="text" name="childName" id="childName" required>
+                                <input type="text" name="childName" id="childName">
 
                                 <input type="hidden" name="priceAtEnrollment" value="<%= activity.price %>">
 
                                 <button type="submit">Enroll Child</button>
                             </form>
-
                             <h3>Leave a Review</h3>
                             <form action="/reviews/<%= activity._id %>" method="post">
                                 <label for="rating">Rating</label>
