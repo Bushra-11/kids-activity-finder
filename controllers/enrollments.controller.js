@@ -1,13 +1,19 @@
 const router = require("express").Router()
 const isSignedIn = require('../middleware/is-signed-in')
 const isParent = require('../middleware/is-parent')
+const isProvider = require('../middleware/is-provider')
 const Enrollment = require('../models/Enrollment')
 
-// View own enrollment history
-router.get('/', isSignedIn, isParent, async (req,res)=>{
-    const allEnrollments = await Enrollment.find({ userId: req.session.user._id }).populate('activityId')
-    res.render('enrollments/enrollment-history.ejs', {enrollments: allEnrollments})
-})
+// View own enrollment history + provider can view all enrollments 
+router.get('/', isSignedIn, async (req, res) => {
+  if (req.session.user.role === 'provider') {
+    const enrollments = await Enrollment.find().populate('activityId').populate('userId');
+    return res.render('enrollments/provider-enrollments-view.ejs', { enrollments });
+  }
+
+  const enrollments = await Enrollment.find({ userId: req.session.user._id }).populate('activityId');
+  res.render('enrollments/enrollment-history.ejs', { enrollments });
+});
 
 // Enroll child in activity
 router.post('/:activityId', isSignedIn, isParent, async(req,res)=>{
@@ -33,5 +39,6 @@ router.delete('/:id', isSignedIn, isParent, async (req,res)=>{
     const cancelledEnrollment = await Enrollment.findByIdAndDelete(req.params.id)
     res.redirect('/enrollments')
 })
+
 
 module.exports = router;

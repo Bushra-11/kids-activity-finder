@@ -4,14 +4,13 @@
 
     <% if (user && user.role === 'provider') { %>
       <a href="/activities/new">Create Activity</a>
+      <a href="/enrollments">View Enrollment</a>
     <% } %>
-
 
     <% if (user && user.role === 'parent'){ %>
       <a href="/enrollments">Enrollment History</a>
 
       <% } %>
-
 
     <% if (user) { %>
       <a href="/auth/sign-out">Logout</a>
