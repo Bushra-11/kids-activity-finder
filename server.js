@@ -20,6 +20,7 @@ const indexController = require("./controllers/index.controllers.js");
 const activityController = require("./controllers/activity.controller.js")
 const reviewController = require("./controllers/review.controller.js")
 const enrollmentController = require("./controllers/enrollments.controller.js")
+const favoriteController = require("./controllers/favorite.controller.js")
 
 
 // Middleware
@@ -54,7 +55,7 @@ app.use('/',indexController)
 app.use('/activities', activityController)
 app.use('/reviews', reviewController)
 app.use('/enrollments', enrollmentController)
-
+app.use('/favorites', favoriteController)
 
 
 

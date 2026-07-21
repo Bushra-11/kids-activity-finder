@@ -25,6 +25,18 @@
         <p>Capacity: <%= activity.capacity %>
         </p>
 
+        <% if(user &&  user.role == 'parent') {%>
+            <% if (isFavorited) { %>
+                <form action="/favorites/<%= activity._id %>?_method=DELETE" method="post">
+                    <button type="submit">Remove from Favorites</button>
+                </form>
+            <% } else { %>
+                <form action="/favorites/<%= activity._id %>" method="post">
+                    <button type="submit">Add to Favorites</button>
+                </form>
+            <% } %>
+            <% } %>
+
         <% if (user && user._id === activity.createdBy.toString()) { %>
             <a href="/activities/<%= activity._id %>/edit">
                 <button type="button">Edit Activity</button>

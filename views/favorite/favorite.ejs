@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorites</title>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <h1>Favorites</h1>
+
+    <% if (favorites.length === 0) { %>
+        <p>You haven't favorited any activities yet.</p>
+    <% } %>
+
+    <% favorites.forEach(function(favorite) { %>
+        <% if (favorite.activityId) { %>
+            <div>
+                <h4>
+                    <a href="/activities/<%= favorite.activityId._id %>"><%= favorite.activityId.title %></a>
+                </h4>
+                <form action="/favorites/<%= favorite.activityId._id %>?_method=DELETE" method="post">
+                    <button type="submit">Remove from Favorites</button>
+                </form>
+            </div>
+        <% } %>
+    <% }); %>
+</body>
+</html>

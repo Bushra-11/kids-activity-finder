@@ -1,6 +1,7 @@
 const router = require("express").Router()
 const Activity = require('../models/Activity ')
 const Review = require('../models/Review')
+const Favorite = require('../models/Favorite')
 const isSignedIn = require('../middleware/is-signed-in')
 const isProvider = require("../middleware/is-provider")
 
@@ -75,7 +76,14 @@ router.get('/recommendations', async (req,res)=>{
 router.get('/:id', async (req,res)=>{
     const activity = await Activity.findById(req.params.id)
     const reviews = await Review.find({ activityId: req.params.id }).populate('userId')
-    res.render('activity/activity-details.ejs', {activity, reviews})
+
+    let isFavorited = false
+    if (req.session.user && req.session.user.role === 'parent') {
+        const favorite = await Favorite.findOne({ userId: req.session.user._id, activityId: req.params.id })
+        isFavorited = Boolean(favorite)
+    }
+
+    res.render('activity/activity-details.ejs', {activity, reviews, isFavorited})
 })
 
 //edit Activity
