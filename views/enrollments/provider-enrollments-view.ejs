@@ -9,6 +9,9 @@
     <%- include('../partials/navbar') %>
     <h1>Enrollments</h1>
 
+    <% if (Object.keys(groupedEnrollments).length === 0) { %>
+        <p>No enrollments yet for your activities.</p>
+    <% } %>
     <% for (let [activityTitle, entries] of Object.entries(groupedEnrollments)) { %>
         <h2><%= activityTitle %></h2>
         <table>

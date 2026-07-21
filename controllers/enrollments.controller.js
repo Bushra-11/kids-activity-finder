@@ -9,7 +9,12 @@ router.get('/', isSignedIn, async (req, res) => {
   if (req.session.user.role === 'provider') {
     const enrollments = await Enrollment.find().populate('activityId').populate('userId');
 
-    const groupedEnrollments = enrollments.reduce((acc, oneEnrollment) => {
+    // so the provider gets his enrollments only
+    const providerEnrollments = enrollments.filter((oneEnrollment) =>
+      oneEnrollment.activityId?.createdBy?.toString() === req.session.user._id.toString()
+    );
+
+    const groupedEnrollments = providerEnrollments.reduce((acc, oneEnrollment) => {
       const activityTitle = oneEnrollment.activityId?.title || 'Unknown';
 
       if (!acc[activityTitle]) {
@@ -23,8 +28,8 @@ router.get('/', isSignedIn, async (req, res) => {
 
       return acc;
     }, {});
-    
-    return res.render('enrollments/provider-enrollments-view.ejs', { enrollments, groupedEnrollments });
+
+    return res.render('enrollments/provider-enrollments-view.ejs', { enrollments: providerEnrollments, groupedEnrollments });
   }
 
   const enrollments = await Enrollment.find({ userId: req.session.user._id }).populate('activityId');
