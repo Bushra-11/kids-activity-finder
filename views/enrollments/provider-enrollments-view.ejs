@@ -8,20 +8,23 @@
 <body>
     <%- include('../partials/navbar') %>
     <h1>Enrollments</h1>
-    <table>
-        <tr>
-        <th>Activity </th>
-        <th>Child Name </th>
-        <th>Date of Registration </th>
-        </tr>
-        <% for(let oneEnrollment of enrollments){ %>
-        <tr>
-        <td><%= oneEnrollment.activityId.title %></td>
-        <td><%= oneEnrollment.childName %></td>
-        <td><%= oneEnrollment.createdAt.getUTCFullYear() %>/<%= oneEnrollment.createdAt.getMonth() + 1 %>/<%= oneEnrollment.createdAt.getDate() %></td>
-        </tr>
-        <% } %>
-    </table>
+
+    <% for (let [activityTitle, entries] of Object.entries(groupedEnrollments)) { %>
+        <h2><%= activityTitle %></h2>
+        <table>
+            <tr>
+                <th>Child Name</th>
+                <th>Registartion Date</th>
+            </tr>
+
+            <% entries.forEach((entry) => { %>
+                <tr>
+                    <td><%= entry.childName %></td>
+                    <td><%= entry.createdAt.toDateString() %></td>
+                </tr>
+            <% }) %>
+        </table>
+    <% } %>
 
 
 </body>

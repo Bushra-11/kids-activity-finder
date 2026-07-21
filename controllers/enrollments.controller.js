@@ -8,7 +8,24 @@ const Enrollment = require('../models/Enrollment')
 router.get('/', isSignedIn, async (req, res) => {
   if (req.session.user.role === 'provider') {
     const enrollments = await Enrollment.find().populate('activityId').populate('userId');
-    return res.render('enrollments/provider-enrollments-view.ejs', { enrollments });
+
+    const groupedEnrollments = enrollments.reduce((acc, oneEnrollment) => {
+      const activityTitle = oneEnrollment.activityId?.title || 'Unknown';
+
+      if (!acc[activityTitle]) {
+        acc[activityTitle] = [];
+      }
+
+      acc[activityTitle].push({
+        childName: oneEnrollment.childName,
+        'createdAt': oneEnrollment.createdAt
+      });
+
+      return acc;
+    }, {});
+
+    console.log(groupedEnrollments);
+    return res.render('enrollments/provider-enrollments-view.ejs', { enrollments, groupedEnrollments });
   }
 
   const enrollments = await Enrollment.find({ userId: req.session.user._id }).populate('activityId');
