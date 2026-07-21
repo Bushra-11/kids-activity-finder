@@ -3,6 +3,7 @@ const isSignedIn = require('../middleware/is-signed-in')
 const isParent = require('../middleware/is-parent')
 const isProvider = require('../middleware/is-provider')
 const Enrollment = require('../models/Enrollment')
+const Activity = require('../models/Activity ')
 
 // View own enrollment history + provider can view all enrollments 
 router.get('/', isSignedIn, async (req, res) => {
@@ -38,6 +39,12 @@ router.get('/', isSignedIn, async (req, res) => {
 
 // Enroll child in activity
 router.post('/:activityId', isSignedIn, isParent, async(req,res)=>{
+    const activity = await Activity.findById(req.params.activityId)
+
+    if (!activity || activity.enrolledCount >= activity.capacity) {
+        return res.redirect(`/activities/${req.params.activityId}`)
+    }
+
     const enrollChild = await Enrollment.create({
         childName: req.body.childName,
         priceAtEnrollment: req.body.priceAtEnrollment,
@@ -45,6 +52,9 @@ router.post('/:activityId', isSignedIn, isParent, async(req,res)=>{
         userId: req.session.user._id,
         activityId: req.params.activityId
     })
+
+    activity.enrolledCount += 1
+    await activity.save({ validateModifiedOnly: true })
 
     res.redirect(`/activities/${req.params.activityId}`)
 })
@@ -58,6 +68,14 @@ router.get('/:id', isSignedIn, isParent, async(req,res)=>{
 //cancel enrollment
 router.delete('/:id', isSignedIn, isParent, async (req,res)=>{
     const cancelledEnrollment = await Enrollment.findByIdAndDelete(req.params.id)
+
+    if (cancelledEnrollment && cancelledEnrollment.status === 'Active') {
+        const activity = await Activity.findById(cancelledEnrollment.activityId)
+        if (activity) {
+            activity.enrolledCount -= 1
+            await activity.save({ validateModifiedOnly: true })
+        }
+    }
     res.redirect('/enrollments')
 })
 

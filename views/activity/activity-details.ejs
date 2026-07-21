@@ -24,6 +24,8 @@
         </p>
         <p>Capacity: <%= activity.capacity %>
         </p>
+        <p>Spots Left: <%= activity.capacity - activity.enrolledCount %>
+        </p>
 
         <% if(user &&  user.role == 'parent') {%>
             <% if (isFavorited) { %>
@@ -73,14 +75,18 @@
                     <% }); %>
                         <br>
                         <% if (user && user.role == 'parent' ) { %>
-                            <form action="/enrollments/<%= activity._id %>" method="post">
-                                <label for="childName">Child Name</label>
-                                <input type="text" name="childName" id="childName">
+                            <% if (activity.enrolledCount >= activity.capacity) { %>
+                                <p>This activity is full.</p>
+                            <% } else { %>
+                                <form action="/enrollments/<%= activity._id %>" method="post">
+                                    <label for="childName">Child Name</label>
+                                    <input type="text" name="childName" id="childName">
 
-                                <input type="hidden" name="priceAtEnrollment" value="<%= activity.price %>">
+                                    <input type="hidden" name="priceAtEnrollment" value="<%= activity.price %>">
 
-                                <button type="submit">Enroll Child</button>
-                            </form>
+                                    <button type="submit">Enroll Child</button>
+                                </form>
+                            <% } %>
                             <h3>Leave a Review</h3>
                             <form action="/reviews/<%= activity._id %>" method="post">
                                 <label for="rating">Rating</label>
