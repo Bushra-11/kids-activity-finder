@@ -12,8 +12,12 @@ const activitySchema = mongoose.Schema({
   description: {
     type: String
   },
-  ageRange: {
-    type: String,
+  minAge: {
+    type: Number,
+    required: true
+  },
+  maxAge:{
+    type: Number,
     required: true
   },
   tags: {

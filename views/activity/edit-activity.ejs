@@ -19,8 +19,11 @@
         <label for="description" >Description: </label>
         <input value="<%= activity.description %>" name="description" id="description" type="text">
 
-        <label for="ageRange" >Age Range: </label>
-        <input value="<%= activity.ageRange %>" name="ageRange" id="ageRange" type="text">
+        <label for="minAge" >Minimum Age: </label>
+        <input value="<%= activity.minAge %>" name="minAge" id="minAge" type="number">
+
+        <label for="maxAge" >Maximum Age: </label>
+        <input value="<%= activity.maxAge %>" name="maxAge" id="maxAge" type="number">
 
         <label for="tags" >Tags: </label>
         <input value="<%= activity.tags %>" name="tags" id="tags" type="text">

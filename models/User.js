@@ -22,6 +22,8 @@ const userSchema = new mongoose.Schema({
   },
   childAge:{
     type: Number,
+    min: 1,
+    max: 13
   },
   favorites:{
     type: [mongoose.Schema.Types.ObjectId],

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommended for You</title>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+    <h1>Recommended for You</h1>
+
+    <form action="/activities/recommendations" method="get">
+        <label for="age">Child's Age: </label>
+        <input name="age" id="age" type="number" value="<%= age || '' %>">
+
+        <label for="interests">Interests (comma separated): </label>
+        <input name="interests" id="interests" type="text" value="<%= interests || '' %>">
+
+        <button type="submit">Get Recommendations</button>
+    </form>
+
+    <% if (searched) { %>
+        <h2>Results</h2>
+        <% if (recommendedActivities.length === 0) { %>
+            <p>Sorry No matching activities found. Try a different age or interests.</p>
+        <% } else { %>
+            <% for (let oneActivity of recommendedActivities) { %>
+                <a href="/activities/<%= oneActivity._id %>"><%= oneActivity.title %></a>
+                <p><%= oneActivity.category %> | Ages: <%= oneActivity.minAge %> - <%= oneActivity.maxAge %></p>
+                <br>
+            <% } %>
+        <% } %>
+    <% } %>
+</body>
+</html>

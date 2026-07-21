@@ -23,8 +23,7 @@ router.get('/', isSignedIn, async (req, res) => {
 
       return acc;
     }, {});
-
-    console.log(groupedEnrollments);
+    
     return res.render('enrollments/provider-enrollments-view.ejs', { enrollments, groupedEnrollments });
   }
 
