@@ -4,11 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <%- include('./partials/navbar') %>
 
     <h1>Welcome to Ufaq</h1>
-    
+    <p>
+        Ufaq helps parents discover and enroll their kids in activities nearby,
+        from sports and arts to tutoring and camps. Providers can list their
+        activities and manage enrollments all in one place.
+    </p>
+
+    <% if (!user) { %>
+        <p><a href="/auth/sign-up">Sign up</a> to get started, or <a href="/auth/sign-in">log in</a> if you already have an account.</p>
+    <% } else if (user.role === 'parent') { %>
+        <p><a href="/activities">Browse all activities</a> or check out <a href="/activities/recommendations">activities recommended for you</a>.</p>
+    <% } else if (user.role === 'provider') { %>
+        <p><a href="/activities/new">Create a new activity</a> or <a href="/enrollments">view your current enrollments</a>.</p>
+    <% } %>
+
 </body>
 </html>
