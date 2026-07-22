@@ -5,14 +5,11 @@ const Favorite = require('../models/Favorite')
 const isSignedIn = require('../middleware/is-signed-in')
 const isProvider = require("../middleware/is-provider")
 
-
-// list all activities
 router.get('/',async (req,res)=>{
     const allActivities = await Activity.find()
     res.render('activity/all-activities.ejs', { allActivities })
 })
 
-//create activity
 router.get('/new',isSignedIn,isProvider,(req,res)=>{
     res.render('activity/create-activity.ejs')
 })
@@ -33,7 +30,6 @@ router.post('/',isSignedIn,isProvider,async (req,res)=>{
     res.redirect('/activities')
 })
 
-// Recommended for you
 router.get('/recommendations', async (req,res)=>{
     const { age, interests } = req.query
     const searched = Boolean(age || interests)
@@ -72,7 +68,7 @@ router.get('/recommendations', async (req,res)=>{
     res.render('activity/recommendations.ejs', { recommendedActivities, searched, age, interests })
 })
 
-//Show Activity Details
+
 router.get('/:id', async (req,res)=>{
     const activity = await Activity.findById(req.params.id)
     const reviews = await Review.find({ activityId: req.params.id }).populate('userId')
@@ -86,7 +82,7 @@ router.get('/:id', async (req,res)=>{
     res.render('activity/activity-details.ejs', {activity, reviews, isFavorited})
 })
 
-//edit Activity
+
 router.get('/:id/edit', isSignedIn, isProvider,async (req,res)=>{
     const activity = await Activity.findById(req.params.id)
     res.render('activity/edit-activity.ejs',{activity})
@@ -107,7 +103,6 @@ router.put('/:id',isSignedIn, isProvider,async (req,res)=>{
     res.redirect(`/activities/${req.params.id}`);
 })
 
-//delete Activity
 router.delete('/:id', isSignedIn, isProvider,async (req,res)=>{
     await Activity.findByIdAndDelete(req.params.id)
     res.redirect(`/activities`);

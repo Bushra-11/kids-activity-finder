@@ -5,12 +5,10 @@ const isProvider = require('../middleware/is-provider')
 const Enrollment = require('../models/Enrollment')
 const Activity = require('../models/Activity ')
 
-// View own enrollment history + provider can view all enrollments 
 router.get('/', isSignedIn, async (req, res) => {
   if (req.session.user.role === 'provider') {
     const enrollments = await Enrollment.find().populate('activityId').populate('userId');
 
-    // so the provider gets his enrollments only
     const providerEnrollments = enrollments.filter((oneEnrollment) =>
       oneEnrollment.activityId?.createdBy?.toString() === req.session.user._id.toString()
     );
@@ -41,7 +39,6 @@ router.get('/', isSignedIn, async (req, res) => {
   res.render('enrollments/enrollment-history.ejs', { enrollments });
 });
 
-// Enroll child in activity
 router.post('/:activityId', isSignedIn, isParent, async(req,res)=>{
     const activity = await Activity.findById(req.params.activityId)
 
@@ -63,13 +60,11 @@ router.post('/:activityId', isSignedIn, isParent, async(req,res)=>{
     res.redirect(`/activities/${req.params.activityId}`)
 })
 
-// view enrollment details
 router.get('/:id', isSignedIn, isParent, async(req,res)=>{
     const enrollment = await Enrollment.findById(req.params.id).populate('activityId')
     res.render('enrollments/enrollment-details.ejs', {enrollment})
 })
 
-//cancel enrollment
 router.delete('/:id', isSignedIn, isParent, async (req,res)=>{
     const cancelledEnrollment = await Enrollment.findByIdAndDelete(req.params.id)
 
