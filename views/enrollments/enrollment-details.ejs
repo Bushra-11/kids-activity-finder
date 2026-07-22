@@ -8,17 +8,36 @@
 </head>
 <body>
     <%- include('../partials/navbar') %>
-    <h1>Enrollment Details</h1>
-        <div></div>
-        <p>Child Name: <%= enrollment.childName %></p>
-        <p>Enrolled In: <%= enrollment.activityId.title %></p>
-        <p>Price paid: <%= enrollment.priceAtEnrollment %> BD</p>
-        <p>Date of Enrollment: <%= enrollment.createdAt.getUTCFullYear() %>/<%= enrollment.createdAt.getMonth() + 1 %>/<%= enrollment.createdAt.getDate() %></p>
-        <p>Enrollment Status: <%= enrollment.status %></p>
-        <form action="/enrollments/<%= enrollment._id %>?_method=DELETE" method="post">
-            <button>Cancel Enrollment</button>
-        </form>
-        
+    <div class="details-page">
+        <div class="details-header">
+            <h1 class="details-title">Enrollment Details</h1>
+            <span class="enrollment-status enrollment-status-<%= enrollment.status.toLowerCase() %>"><%= enrollment.status %></span>
+        </div>
 
+        <div class="details-stats">
+            <div class="details-stat">
+                <span class="details-stat-value"><%= enrollment.childName %></span>
+                <span class="details-stat-label">Child Name</span>
+            </div>
+            <div class="details-stat">
+                <span class="details-stat-value"><%= enrollment.activityId ? enrollment.activityId.title : 'Activity no longer available' %></span>
+                <span class="details-stat-label">Enrolled In</span>
+            </div>
+            <div class="details-stat">
+                <span class="details-stat-value"><%= enrollment.priceAtEnrollment %> BD</span>
+                <span class="details-stat-label">Price Paid</span>
+            </div>
+            <div class="details-stat">
+                <span class="details-stat-value"><%= enrollment.createdAt.getUTCFullYear() %>/<%= enrollment.createdAt.getMonth() + 1 %>/<%= enrollment.createdAt.getDate() %></span>
+                <span class="details-stat-label">Date of Enrollment</span>
+            </div>
+        </div>
+
+        <div class="details-actions">
+            <form action="/enrollments/<%= enrollment._id %>?_method=DELETE" method="post">
+                <button class="btn btn-danger" type="submit">Cancel Enrollment</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

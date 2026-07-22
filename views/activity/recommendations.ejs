@@ -8,29 +8,42 @@
 </head>
 <body>
     <%- include('../partials/navbar') %>
-    <h1>Recommended for You</h1>
+    <div class="activities-page">
+        <h1 class="page-title">Recommended for You</h1>
 
-    <form action="/activities/recommendations" method="get">
-        <label for="age">Child's Age: </label>
-        <input name="age" id="age" type="number" value="<%= age || '' %>">
+        <form class="auth-form recommend-form" action="/activities/recommendations" method="get">
+            <label for="age">Child's Age</label>
+            <input name="age" id="age" type="number" value="<%= age || '' %>">
 
-        <label for="interests">Interests (comma separated): </label>
-        <input name="interests" id="interests" type="text" value="<%= interests || '' %>">
+            <label for="interests">Interests (comma separated)</label>
+            <input name="interests" id="interests" type="text" value="<%= interests || '' %>">
 
-        <button type="submit">Get Recommendations</button>
-    </form>
+            <button class="btn btn-primary" type="submit">Get Recommendations</button>
+        </form>
 
-    <% if (searched) { %>
-        <h2>Results</h2>
-        <% if (recommendedActivities.length === 0) { %>
-            <p>Sorry No matching activities found. Try a different age or interests.</p>
-        <% } else { %>
-            <% for (let oneActivity of recommendedActivities) { %>
-                <a href="/activities/<%= oneActivity._id %>"><%= oneActivity.title %></a>
-                <p><%= oneActivity.category %> | Ages: <%= oneActivity.minAge %> - <%= oneActivity.maxAge %></p>
-                <br>
+        <% if (searched) { %>
+            <h2 class="section-title">Results</h2>
+            <% if (recommendedActivities.length === 0) { %>
+                <p class="details-description">Sorry No matching activities found. Try a different age or interests.</p>
+            <% } else { %>
+                <div class="activities-grid">
+                    <% for (let oneActivity of recommendedActivities) { %>
+                        <a href="/activities/<%= oneActivity._id %>" class="activity-card">
+                            <% if (oneActivity.imageUrl) { %>
+                                <img class="activity-card-img" src="<%= oneActivity.imageUrl %>" alt="<%= oneActivity.title %>">
+                            <% } else { %>
+                                <div class="activity-card-img activity-card-img-placeholder">No Image</div>
+                            <% } %>
+                            <div class="activity-card-body">
+                                <h3 class="activity-card-title"><%= oneActivity.title %></h3>
+                                <span class="activity-card-category"><%= oneActivity.category %></span>
+                                <p class="activity-card-age">Ages <%= oneActivity.minAge %> - <%= oneActivity.maxAge %></p>
+                            </div>
+                        </a>
+                    <% } %>
+                </div>
             <% } %>
         <% } %>
-    <% } %>
+    </div>
 </body>
 </html>

@@ -9,20 +9,22 @@
 <body>
     <%- include('./partials/navbar') %>
 
-    <h1>Welcome to Ufaq</h1>
-    <p>
-        Ufaq helps parents discover and enroll their kids in activities nearby,
-        from sports and arts to tutoring and camps. Providers can list their
-        activities and manage enrollments all in one place.
-    </p>
+    <div class="page-content">
+        <h1 id="welcome">Welcome to Ufaq</h1>
+        <p id="welcome-paragraph">
+            Ufaq helps parents discover and enroll their kids in activities nearby,
+            from sports and arts to tutoring and camps. Providers can list their
+            activities and manage enrollments all in one place.
+        </p>
 
-    <% if (!user) { %>
-        <p><a href="/auth/sign-up">Sign up</a> to get started, or <a href="/auth/sign-in">log in</a> if you already have an account.</p>
-    <% } else if (user.role === 'parent') { %>
-        <p><a href="/activities">Browse all activities</a> or check out <a href="/activities/recommendations">activities recommended for you</a>.</p>
-    <% } else if (user.role === 'provider') { %>
-        <p><a href="/activities/new">Create a new activity</a> or <a href="/enrollments">view your current enrollments</a>.</p>
-    <% } %>
+        <% if (!user) { %>
+            <p class="intro-p"><a class="intro-a" href="/auth/sign-up">Sign up</a> to get started, or <a class="intro-a" href="/auth/sign-in">log in</a> if you already have an account.</p>
+        <% } else if (user.role === 'parent') { %>
+            <p class="intro-p"><a class="intro-a" href="/activities">Browse all activities</a> or check out <a class="intro-a" href="/activities/recommendations">activities recommended for you</a>.</p>
+        <% } else if (user.role === 'provider') { %>
+            <p class="intro-p"><a class="intro-a" href="/activities/new">Create a new activity</a> or <a class="intro-a" href="/enrollments">view your current enrollments</a>.</p>
+        <% } %>
+    </div>
 
 </body>
 </html>

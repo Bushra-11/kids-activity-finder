@@ -8,12 +8,24 @@
 </head>
 <body>
     <%- include('../partials/navbar') %>
-    <h1>All Activities</h1>
-    <% for(let oneActivity of allActivities ){ %>
-        <a href="/activities/<%= oneActivity._id %>"><%= oneActivity.title %></a>
-        <br>
-        <br>
-        <% } %>
+    <div class="activities-page">
+        <h1 class="page-title">All Activities</h1>
+        <div class="activities-grid">
+            <% for(let oneActivity of allActivities ){ %>
+                <a href="/activities/<%= oneActivity._id %>" class="activity-card">
+                    <% if (oneActivity.imageUrl) { %>
+                        <img class="activity-card-img" src="<%= oneActivity.imageUrl %>" alt="<%= oneActivity.title %>">
+                    <% } else { %>
+                        <div class="activity-card-img activity-card-img-placeholder">No Image</div>
+                    <% } %>
+                    <div class="activity-card-body">
+                        <h3 class="activity-card-title"><%= oneActivity.title %></h3>
+                        <span class="activity-card-category"><%= oneActivity.category %></span>
+                    </div>
+                </a>
+            <% } %>
+        </div>
+    </div>
 
 </body>
 </html>

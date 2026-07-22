@@ -8,14 +8,26 @@
 </head>
 <body>
     <%- include('../partials/navbar') %>
-    <h1>Enrollment History</h1>
-    <% if (enrollments.length === 0) { %>
-            <p>No enrollments yet.</p>
-        <% } else {%>
-            <% enrollments.forEach(function(enrollment) { %>
-                <div>
-                    <a href="/enrollments/<%= enrollment._id %>"><%= enrollment.activityId.title %></a>
-                </div>
-            <% }) }%>
+    <div class="details-page">
+        <h1 class="details-title">Enrollment History</h1>
+
+        <% if (enrollments.length === 0) { %>
+            <p class="details-description">No enrollments yet.</p>
+        <% } else { %>
+            <div class="details-section">
+                <% enrollments.forEach(function(enrollment) { %>
+                    <a class="enrollment-card" href="/enrollments/<%= enrollment._id %>">
+                        <div class="enrollment-card-info">
+                            <span class="enrollment-card-title">
+                                <%= enrollment.activityId ? enrollment.activityId.title : 'Activity no longer available' %>
+                            </span>
+                            <span class="enrollment-card-child">Child: <%= enrollment.childName %></span>
+                        </div>
+                        <span class="enrollment-status enrollment-status-<%= enrollment.status.toLowerCase() %>"><%= enrollment.status %></span>
+                    </a>
+                <% }) %>
+            </div>
+        <% } %>
+    </div>
 </body>
 </html>

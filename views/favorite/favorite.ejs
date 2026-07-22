@@ -9,23 +9,35 @@
 <body>
     <%- include('../partials/navbar') %>
 
-    <h1>Favorites</h1>
+    <div class="activities-page">
+        <h1 class="page-title">Favorites</h1>
 
-    <% if (favorites.length === 0) { %>
-        <p>You haven't favorited any activities yet.</p>
-    <% } %>
-
-    <% favorites.forEach(function(favorite) { %>
-        <% if (favorite.activityId) { %>
-            <div>
-                <h4>
-                    <a href="/activities/<%= favorite.activityId._id %>"><%= favorite.activityId.title %></a>
-                </h4>
-                <form action="/favorites/<%= favorite.activityId._id %>?_method=DELETE" method="post">
-                    <button type="submit">Remove from Favorites</button>
-                </form>
-            </div>
+        <% if (favorites.length === 0) { %>
+            <p class="details-description" style="text-align:center;">You haven't favorited any activities yet.</p>
         <% } %>
-    <% }); %>
+
+        <div class="activities-grid">
+            <% favorites.forEach(function(favorite) { %>
+                <% if (favorite.activityId) { %>
+                    <div class="activity-card favorite-card">
+                        <a href="/activities/<%= favorite.activityId._id %>">
+                            <% if (favorite.activityId.imageUrl) { %>
+                                <img class="activity-card-img" src="<%= favorite.activityId.imageUrl %>" alt="<%= favorite.activityId.title %>">
+                            <% } else { %>
+                                <div class="activity-card-img activity-card-img-placeholder">No Image</div>
+                            <% } %>
+                            <div class="activity-card-body">
+                                <h3 class="activity-card-title"><%= favorite.activityId.title %></h3>
+                                <span class="activity-card-category"><%= favorite.activityId.category %></span>
+                            </div>
+                        </a>
+                        <form class="favorite-remove-form" action="/favorites/<%= favorite.activityId._id %>?_method=DELETE" method="post">
+                            <button class="btn btn-danger btn-small" type="submit">Remove from Favorites</button>
+                        </form>
+                    </div>
+                <% } %>
+            <% }); %>
+        </div>
+    </div>
 </body>
 </html>

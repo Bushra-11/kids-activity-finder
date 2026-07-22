@@ -8,33 +8,41 @@
 </head>
 <body>
     <%- include('../partials/navbar') %>
-    <h1>Enrollments</h1>
+    <div class="activities-page">
+        <h1 class="page-title">Enrollments</h1>
 
-    <% if (Object.keys(groupedEnrollments).length === 0) { %>
-        <p>No enrollments yet for your activities.</p>
-    <% } %>
-    <% for (let [activityTitle, group] of Object.entries(groupedEnrollments)) { %>
-        <h2>
-            <%= activityTitle %>
-            <% if (group.capacity && group.enrolledCount / group.capacity >= 0.8) { %>
-                <span style="color: red;"> Nearly Full</span>
-            <% } %>
-        </h2>
-        <table>
-            <tr>
-                <th>Child Name</th>
-                <th>Registartion Date</th>
-            </tr>
+        <% if (Object.keys(groupedEnrollments).length === 0) { %>
+            <p class="details-description" style="text-align:center;">No enrollments yet for your activities.</p>
+        <% } %>
 
-            <% group.entries.forEach((entry) => { %>
-                <tr>
-                    <td><%= entry.childName %></td>
-                    <td><%= entry.createdAt.toDateString() %></td>
-                </tr>
-            <% }) %>
-        </table>
-    <% } %>
-
-
+        <% for (let [activityTitle, group] of Object.entries(groupedEnrollments)) { %>
+            <div class="enrollment-group-card">
+                <div class="enrollment-group-header">
+                    <h2 class="section-title">
+                        <%= activityTitle %>
+                    </h2>
+                    <% if (group.capacity && group.capacity - group.enrolledCount <= 2) { %>
+                        <span class="badge-warning">Nearly Full</span>
+                    <% } %>
+                </div>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Child Name</th>
+                            <th>Registration Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% group.entries.forEach((entry) => { %>
+                            <tr>
+                                <td><%= entry.childName %></td>
+                                <td><%= entry.createdAt.toDateString() %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
+    </div>
 </body>
 </html>

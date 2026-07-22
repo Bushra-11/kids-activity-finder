@@ -8,37 +8,41 @@
 </head>
 <body>
     <%- include('../partials/navbar') %>
-    <h1>Create Activity</h1>
-    <form action="/activities" method="post">
+    <div class="page-content">
+        <div class="form-card">
+            <h1 class="auth-title">Create Activity</h1>
+            <form class="auth-form" action="/activities" method="post">
 
-        <label for="title" >Title: </label>
-        <input name="title" id="title" type="text">
+                <label for="title">Title</label>
+                <input name="title" id="title" type="text">
 
-        <label for="category" >Category: </label>
-        <input name="category" id="category" type="text">
+                <label for="category">Category</label>
+                <input name="category" id="category" type="text">
 
-        <label for="description" >Description: </label>
-        <input name="description" id="description" type="text">
+                <label for="description">Description</label>
+                <input name="description" id="description" type="text">
 
-        <label for="minAge" >Minimum Age: </label>
-        <input name="minAge" id="minAge" type="text">
+                <label for="minAge">Minimum Age</label>
+                <input name="minAge" id="minAge" type="text">
 
-        <label for="maxAge" >Maximum Age: </label>
-        <input name="maxAge" id="maxAge" type="Number">
+                <label for="maxAge">Maximum Age</label>
+                <input name="maxAge" id="maxAge" type="Number">
 
-        <label for="tags" >Tags: </label>
-        <input name="tags" id="tags" type="text">
+                <label for="tags">Tags</label>
+                <input name="tags" id="tags" type="text">
 
-        <label for="price" >Price: </label>
-        <input name="price" id="price" type="number">
+                <label for="price">Price</label>
+                <input name="price" id="price" type="number">
 
-        <label for="capacity" >Capacity : </label>
-        <input name="capacity" id="capacity" type="number">
+                <label for="capacity">Capacity</label>
+                <input name="capacity" id="capacity" type="number">
 
-        <label for="imageUrl" >image Url : </label>
-        <input name="imageUrl" id="imageUrl" type="text">
+                <label for="imageUrl">Image Url</label>
+                <input name="imageUrl" id="imageUrl" type="text">
 
-        <button type="submit">Create Activity</button>
-    </form>
+                <button class="btn btn-primary" type="submit">Create Activity</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

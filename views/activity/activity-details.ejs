@@ -10,102 +10,135 @@
 
 <body>
     <%- include('../partials/navbar') %>
-        <h1>Activity Details</h1>
-        <p>Activity Name: <%= activity.title %>
-        </p>
-        <p>Category: <%= activity.category %>
-        </p>
-        <p>Description: <%= activity.description %>
-        </p>
-        <p>Age Range: <%= activity.minAge %> - <%= activity.maxAge %>
-        </p>
-        <p>Tags: <%= activity.tags %>
-        </p>
-        <p>Price: <%= activity.price %> BD
-        </p>
-        <p>Capacity: <%= activity.capacity %>
-        </p>
-        <p>Spots Left: <%= activity.capacity - activity.enrolledCount %>
-        </p>
+    <div class="details-page">
 
-        <% if(user &&  user.role == 'parent') {%>
-            <% if (isFavorited) { %>
-                <form action="/favorites/<%= activity._id %>?_method=DELETE" method="post">
-                    <button type="submit">Remove from Favorites</button>
+        <% if (activity.imageUrl) { %>
+            <img class="details-hero-img" src="<%= activity.imageUrl %>" alt="<%= activity.title %>">
+        <% } else { %>
+            <div class="details-hero-img details-hero-img-placeholder">No Image</div>
+        <% } %>
+
+        <div class="details-header">
+            <h1 class="details-title"><%= activity.title %></h1>
+            <span class="activity-card-category"><%= activity.category %></span>
+        </div>
+
+        <% if (activity.description) { %>
+            <p class="details-description"><%= activity.description %></p>
+        <% } %>
+
+        <div class="details-stats">
+            <div class="details-stat">
+                <span class="details-stat-value"><%= activity.minAge %>-<%= activity.maxAge %></span>
+                <span class="details-stat-label">Age Range</span>
+            </div>
+            <div class="details-stat">
+                <span class="details-stat-value"><%= activity.price %> BD</span>
+                <span class="details-stat-label">Price</span>
+            </div>
+            <div class="details-stat">
+                <span class="details-stat-value"><%= activity.capacity %></span>
+                <span class="details-stat-label">Capacity</span>
+            </div>
+            <div class="details-stat">
+                <span class="details-stat-value"><%= activity.capacity - activity.enrolledCount %></span>
+                <span class="details-stat-label">Spots Left</span>
+            </div>
+        </div>
+
+        <% if (activity.tags && activity.tags.length) { %>
+            <div class="details-tags">
+                <% activity.tags.forEach(function(tag) { %>
+                    <span class="tag-pill"><%= tag %></span>
+                <% }) %>
+            </div>
+        <% } %>
+
+        <div class="details-actions">
+            <% if(user && user.role == 'parent') {%>
+                <% if (isFavorited) { %>
+                    <form action="/favorites/<%= activity._id %>?_method=DELETE" method="post">
+                        <button class="btn btn-outline" type="submit">Remove from Favorites</button>
+                    </form>
+                <% } else { %>
+                    <form action="/favorites/<%= activity._id %>" method="post">
+                        <button class="btn btn-outline" type="submit">Add to Favorites</button>
+                    </form>
+                <% } %>
+            <% } %>
+
+            <% if (user && user._id === activity.createdBy.toString()) { %>
+                <a href="/activities/<%= activity._id %>/edit">
+                    <button class="btn btn-primary" type="button">Edit Activity</button>
+                </a>
+                <form action="/activities/<%= activity._id %>?_method=DELETE" method="post">
+                    <button class="btn btn-danger" type="submit">Delete Activity</button>
                 </form>
-            <% } else { %>
-                <form action="/favorites/<%= activity._id %>" method="post">
-                    <button type="submit">Add to Favorites</button>
-                </form>
             <% } %>
-            <% } %>
+        </div>
 
-        <% if (user && user._id === activity.createdBy.toString()) { %>
-            <a href="/activities/<%= activity._id %>/edit">
-                <button type="button">Edit Activity</button>
-            </a>
-            <br>
-            <br>
-            <form action="/activities/<%= activity._id %>?_method=DELETE" method="post">
-                <button type="submit">Delete Activity</button>
-            </form>
+        <div class="details-section">
+            <h2 class="section-title">Reviews</h2>
+            <% if (reviews.length === 0) { %>
+                <p class="details-description">No reviews yet.</p>
             <% } %>
-
-        <h2>Reviews</h2>
-        <% if (reviews.length === 0) { %>
-            <p>No reviews yet.</p>
-            <% } %>
-                <% reviews.forEach(function(review) { %>
-                    <div>
-                        <p>
-                            <h4><%= review.userId.username %></h4> - Rating: <%= review.rating %>/5
-                        </p>
-                        <p>
-                            <%= review.comment %>
-                        </p>
-                        <% if(user && user._id === review.userId._id.toString()){ %>
-                        <form action="/reviews/<%= review._id %>/edit" method="get">
-                            <button>Edit Review</button>
-                        </form>
-                        <form action="/reviews/<%= review._id %>?_method=DELETE" method="post">
-                            <br>
-                            <button>Delete Review</button>
-                        </form>
-                        <% } %>
+            <% reviews.forEach(function(review) { %>
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="review-author"><%= review.userId.username %></span>
+                        <span class="review-rating">Rating: <%= review.rating %>/5</span>
                     </div>
-                    <% }); %>
-                        <br>
-                        <% if (user && user.role == 'parent' ) { %>
-                            <% if (activity.enrolledCount >= activity.capacity) { %>
-                                <p>This activity is full.</p>
-                            <% } else { %>
-                                <form action="/enrollments/<%= activity._id %>" method="post">
-                                    <label for="childName">Child Name</label>
-                                    <input type="text" name="childName" id="childName">
-
-                                    <input type="hidden" name="priceAtEnrollment" value="<%= activity.price %>">
-
-                                    <button type="submit">Enroll Child</button>
-                                </form>
-                            <% } %>
-                            <h3>Leave a Review</h3>
-                            <form action="/reviews/<%= activity._id %>" method="post">
-                                <label for="rating">Rating</label>
-                                <select name="rating" id="rating" >
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
-
-                                <label for="comment">Comment</label>
-                                <textarea name="comment" id="comment" ></textarea>
-
-                                <button type="submit">Submit Review</button>
+                    <p class="review-comment"><%= review.comment %></p>
+                    <% if(user && user._id === review.userId._id.toString()){ %>
+                        <div class="review-actions">
+                            <form action="/reviews/<%= review._id %>/edit" method="get">
+                                <button class="btn btn-outline btn-small">Edit Review</button>
                             </form>
-                            <% } %>
+                            <form action="/reviews/<%= review._id %>?_method=DELETE" method="post">
+                                <button class="btn btn-danger btn-small">Delete Review</button>
+                            </form>
+                        </div>
+                    <% } %>
+                </div>
+            <% }); %>
+        </div>
 
+        <% if (user && user.role == 'parent' ) { %>
+            <div class="details-section">
+                <% if (activity.enrolledCount >= activity.capacity) { %>
+                    <p class="details-description">This activity is full.</p>
+                <% } else { %>
+                    <h2 class="section-title">Enroll</h2>
+                    <form class="auth-form" action="/enrollments/<%= activity._id %>" method="post">
+                        <label for="childName">Child Name</label>
+                        <input type="text" name="childName" id="childName">
+
+                        <input type="hidden" name="priceAtEnrollment" value="<%= activity.price %>">
+
+                        <button class="btn btn-primary" type="submit">Enroll Child</button>
+                    </form>
+                <% } %>
+
+                <h2 class="section-title">Leave a Review</h2>
+                <form class="auth-form" action="/reviews/<%= activity._id %>" method="post">
+                    <label for="rating">Rating</label>
+                    <select name="rating" id="rating">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+
+                    <label for="comment">Comment</label>
+                    <textarea name="comment" id="comment"></textarea>
+
+                    <button class="btn btn-primary" type="submit">Submit Review</button>
+                </form>
+            </div>
+        <% } %>
+
+    </div>
 </body>
 
 </html>
