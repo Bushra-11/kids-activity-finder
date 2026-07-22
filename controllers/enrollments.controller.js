@@ -19,10 +19,14 @@ router.get('/', isSignedIn, async (req, res) => {
       const activityTitle = oneEnrollment.activityId?.title || 'Unknown';
 
       if (!acc[activityTitle]) {
-        acc[activityTitle] = [];
+        acc[activityTitle] = {
+          capacity: oneEnrollment.activityId?.capacity,
+          enrolledCount: oneEnrollment.activityId?.enrolledCount,
+          entries: []
+        };
       }
 
-      acc[activityTitle].push({
+      acc[activityTitle].entries.push({
         childName: oneEnrollment.childName,
         'createdAt': oneEnrollment.createdAt
       });

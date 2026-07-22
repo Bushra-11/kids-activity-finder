@@ -12,15 +12,20 @@
     <% if (Object.keys(groupedEnrollments).length === 0) { %>
         <p>No enrollments yet for your activities.</p>
     <% } %>
-    <% for (let [activityTitle, entries] of Object.entries(groupedEnrollments)) { %>
-        <h2><%= activityTitle %></h2>
+    <% for (let [activityTitle, group] of Object.entries(groupedEnrollments)) { %>
+        <h2>
+            <%= activityTitle %>
+            <% if (group.capacity && group.enrolledCount / group.capacity >= 0.8) { %>
+                <span style="color: red;"> Nearly Full</span>
+            <% } %>
+        </h2>
         <table>
             <tr>
                 <th>Child Name</th>
                 <th>Registartion Date</th>
             </tr>
 
-            <% entries.forEach((entry) => { %>
+            <% group.entries.forEach((entry) => { %>
                 <tr>
                     <td><%= entry.childName %></td>
                     <td><%= entry.createdAt.toDateString() %></td>
